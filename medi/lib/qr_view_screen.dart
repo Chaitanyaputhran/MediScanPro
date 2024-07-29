@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'text_to_speech_screen.dart'; // Import the TextToSpeechScreen
-import 'result_page.dart'; // Import the ResultPage
 
 class QRViewScreen extends StatefulWidget {
   @override
@@ -48,31 +47,37 @@ class _QRViewScreenState extends State<QRViewScreen> {
           ),
           Positioned.fill(
             child: Center(
-              child: (result != null)
-                  ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Scanned Data: ${result!.code}',
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TextToSpeechScreen(text: result!.code!),
-                        ),
-                      );
-                    },
-                    child: Text('Speak'),
-                  ),
-                ],
-              )
-                  : Text(
-                'Scan a QR code',
-                style: TextStyle(fontSize: 20, color: Colors.white),
+              child: Container(
+                color: Colors.black54, // Semi-transparent background
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (result != null) ...[
+                      Text(
+                        'Scanned Data: ${result!.code}',
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TextToSpeechScreen(text: result!.code!),
+                            ),
+                          );
+                        },
+                        child: Text('Speak'),
+                      ),
+                    ] else ...[
+                      Text(
+                        'Scan a QR code',
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                    ],
+                  ],
+                ),
               ),
             ),
           ),
