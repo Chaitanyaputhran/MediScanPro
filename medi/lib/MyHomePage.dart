@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:medi/qr_view_screen.dart';
+import 'qr_view_screen.dart';
 
 class MyHomePage extends StatelessWidget {
   @override
@@ -47,9 +47,7 @@ class MyHomePage extends StatelessWidget {
                 icon: Icon(Icons.qr_code_scanner),
                 label: Text('Scan QR Code'),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.teal,
-                  onPrimary: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  foregroundColor: Colors.white, backgroundColor: Colors.teal, padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                   textStyle: TextStyle(fontSize: 18),
                 ),
               ),

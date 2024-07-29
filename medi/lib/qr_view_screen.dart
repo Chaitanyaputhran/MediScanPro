@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:medi/result_page.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'text_to_speech_screen.dart'; // Import the TextToSpeechScreen
+import 'result_page.dart'; // Import the ResultPage
 
 class QRViewScreen extends StatefulWidget {
   @override
@@ -30,6 +31,7 @@ class _QRViewScreenState extends State<QRViewScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Scan QR Code'),
+        backgroundColor: Colors.teal,
       ),
       body: Stack(
         children: <Widget>[
@@ -47,9 +49,26 @@ class _QRViewScreenState extends State<QRViewScreen> {
           Positioned.fill(
             child: Center(
               child: (result != null)
-                  ? Text(
-                'Scanned Data: ${result!.code}',
-                style: TextStyle(fontSize: 20, color: Colors.white),
+                  ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Scanned Data: ${result!.code}',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TextToSpeechScreen(text: result!.code!),
+                        ),
+                      );
+                    },
+                    child: Text('Speak'),
+                  ),
+                ],
               )
                   : Text(
                 'Scan a QR code',
@@ -67,20 +86,9 @@ class _QRViewScreenState extends State<QRViewScreen> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
-        // Navigate to result page if result is not null
-        if (result != null && result!.code != null) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ResultPage(result!.code!),
-            ),
-          );
-        }
       });
     });
   }
-
-
 
   @override
   void dispose() {
